@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Analytics Experiment - WDA Practical</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        
+        // Replace 'G-XXXXXXX' with your actual Google Analytics Measurement ID
+        gtag('config', 'G-XXXXXXX', {
+            page_title: 'WDA Analytics Experiment',
+            page_location: window.location.href
+        });
+        
+        // Function to track custom events
+        function trackEvent(eventName, category, label) {
+            gtag('event', eventName, {
+                'event_category': category,
+                'event_label': label,
+                'value': 1
+            });
+            
+            // Log to console for debugging
+            console.log(`Event tracked: ${eventName}, Category: ${category}, Label: ${label}`);
+            
+            // Display in our event log
+            addEventLog(eventName, category, label);
+        }
+        
+        function addEventLog(eventName, category, label) {
+            const logContainer = document.getElementById('event-log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.innerHTML = `
+                <strong>[${timestamp}]</strong> 
+                Event: <span class="event-name">${eventName}</span> | 
+                Category: ${category} | 
+                Label: ${label}
+            `;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .setup-guide {
+            background: #f8fafc;
+            border-left: 5px solid #4299e1;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .setup-guide h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .step {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .step-number {
+            background: #4299e1;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .code-block {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .tracking-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 10px;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .track-btn {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .track-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
+        }
+        
+        .track-btn.secondary {
+            background: linear-gradient(135deg, #ed8936, #dd6b20);
+        }
+        
+        #event-log {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        
+        .log-entry {
+            padding: 8px 0;
+            border-bottom: 1px solid #2d3748;
+            font-size: 13px;
+        }
+        
+        .event-name {
+            color: #68d391;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            background: #fef5e7;
+            border: 1px solid #f6ad55;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Google Analytics Tracking Experiment</h1>
+            <p>WDA Practical: Monitor page views, user demographics, and interactions</p>
+        </div>
+
+        <!-- Setup Instructions -->
+        <div class="setup-guide">
+            <h3>📋 Google Analytics Setup Instructions</h3>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Go to Google Analytics:</strong>
+                <div class="code-block">https://analytics.google.com</div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Create Account & Property:</strong>
+                <ul>
+                    <li>Click "Start measuring"</li>
+                    <li>Enter Account name: "WDA Analytics"</li>
+                    <li>Enter Property name: "My Website Experiment"</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Set up Web Stream:</strong>
+                <ul>
+                    <li><strong>Website URL:</strong> <code>https://hridaydevkar.github.io/fluffy-giggle</code></li>
+                    <li><strong>Stream name:</strong> <code>WDA Analytics Experiment</code></li>
+                    <li>Click "Create stream"</li>
+                </ul>
+                <div class="highlight" style="margin-top: 10px;">
+                    <strong>🔧 GitHub Pages Setup:</strong>
+                    <br>1. Go to your repo: <code>github.com/hridaydevkar/fluffy-giggle</code>
+                    <br>2. Click Settings → Pages
+                    <br>3. Source: Deploy from main branch
+                    <br>4. Upload your exp5.html as index.html
+                    <br>5. Use URL: <code>https://hridaydevkar.github.io/fluffy-giggle</code>
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Get Your Measurement ID:</strong>
+                <ul>
+                    <li>Copy the Measurement ID (format: G-XXXXXXXXXX)</li>
+                    <li>Replace 'G-XXXXXXX' in the code above with your actual ID</li>
+                </ul>
+            </div>
+            
+            <div class="highlight">
+                <strong>💡 Quick Solutions for URL Problem:</strong>
+                <br><strong>Option 1:</strong> Use <code>https://example.com</code> temporarily in GA setup
+                <br><strong>Option 2:</strong> Deploy free at <code>drop.netlify.com</code> - just drag your HTML file!
+                <br><strong>Option 3:</strong> Create GitHub Pages: <code>https://username.github.io/repo-name</code>
+                <br><strong>Note:</strong> Google Analytics doesn't accept localhost URLs anymore
+            </div>
+        </div>
+
+        <!-- Interactive Tracking Section -->
+        <div class="tracking-section">
+            <h2>🎯 Test Event Tracking</h2>
+            <p>Click these buttons to generate events that will appear in your Google Analytics dashboard:</p>
+            
+            <div class="button-grid">
+                <button class="track-btn" onclick="trackEvent('button_click', 'engagement', 'primary_cta')">
+                    Track Primary Button
+                </button>
+                <button class="track-btn secondary" onclick="trackEvent('download', 'file', 'brochure_pdf')">
+                    Track Download Event
+                </button>
+                <button class="track-btn" onclick="trackEvent('video_play', 'media', 'intro_video')">
+                    Track Video Play
+                </button>
+                <button class="track-btn secondary" onclick="trackEvent('form_submit', 'conversion', 'contact_form')">
+                    Track Form Submission
+                </button>
+                <button class="track-btn" onclick="trackEvent('social_share', 'engagement', 'facebook')">
+                    Track Social Share
+                </button>
+                <button class="track-btn secondary" onclick="trackEvent('search', 'site_search', 'product_query')">
+                    Track Site Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Analytics Information -->
+        <div class="tracking-section">
+            <h2>📊 What Google Analytics Will Track</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div>
+                    <h4>📄 Page Views</h4>
+                    <ul>
+                        <li>Total page visits</li>
+                        <li>Unique visitors</li>
+                        <li>Session duration</li>
+                        <li>Bounce rate</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>👥 User Demographics</h4>
+                    <ul>
+                        <li>Age and gender</li>
+                        <li>Geographic location</li>
+                        <li>Language preferences</li>
+                        <li>Interests</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>💻 Technology</h4>
+                    <ul>
+                        <li>Device type</li>
+                        <li>Operating system</li>
+                        <li>Browser</li>
+                        <li>Screen resolution</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>🎯 Custom Events</h4>
+                    <ul>
+                        <li>Button clicks</li>
+                        <li>File downloads</li>
+                        <li>Video interactions</li>
+                        <li>Form submissions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Log -->
+        <div class="tracking-section">
+            <h2>📝 Event Tracking Log</h2>
+            <p>Events triggered on this page will appear below and in your Google Analytics Real-time reports:</p>
+            <div id="event-log">
+                <div class="log-entry">
+                    <strong>[Ready]</strong> Google Analytics initialized - ready to track events
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add page load event
+        window.addEventListener('load', function() {
+            addEventLog('page_view', 'engagement', 'page_loaded');
+        });
+
+        // Track scroll depth
+        let maxScroll = 0;
+        window.addEventListener('scroll', function() {
+            const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+            
+            if (scrollPercent > maxScroll && scrollPercent >= 50 && scrollPercent % 25 === 0) {
+                maxScroll = scrollPercent;
+                trackEvent('scroll', 'engagement', `${scrollPercent}_percent`);
+            }
+        });
+    </script>
+</body>
+</html>
